@@ -3,8 +3,8 @@
  * MIT License
  *
  * Copyright (c) 2016 Shrumit Mehta
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
+ *
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -81,6 +81,7 @@
 		caretPos.top += elemPos.top;
 		caretPos.top += this.getLineHeight();
 		caretPos.left += elemPos.left;
+		var ebemrod = "asdasd12"
 		return caretPos;
 	}
 	
@@ -100,7 +101,7 @@
 		var cursorPos = this.getCaretIndex();
 		
 		if (pos == null)
-			pos = cursorPosition;
+			pos = cursorPos;
 		
 		var oldVal = this.val();
 		var newVal = oldVal.substring(0, pos) + text + oldVal.substring(pos, oldVal.length);
@@ -109,9 +110,61 @@
 		if (settings.cursorAtOriginal)
 			newPos = cursorPos + settings.adjustCursor;
 		else
-			newPos = pos + text.length;
+			newPos = pos + text.length + settings.adjustCursor;
 		
 		this.setCaret(newPos);
+	}
+	
+	$.fn.getLineBefore = function(pos){
+		if (pos == null)
+			pos = this.getCaretIndex();
+			
+		var re = /^(.*)~!@$/m;
+		result = re.exec(this.val().substring(0, pos) + '~!@');
+		
+		if (result)
+			return result[1];
+		else
+			return "";
+	}
+	
+	$.fn.getLineAfter = function(pos){
+		if (pos == null)
+			pos = this.getCaretIndex();
+		
+		var re = /~!@(.*)$/m
+		result = re.exec('~!@' + this.val().substring(pos, this.val().length))
+		if (result)
+			return result[1];
+		else
+			return "";
+	}
+	
+	$.fn.getLine = function (pos, options) {
+
+		var settings = $.extend({
+			getBeforeOnly: false,
+			getAfterOnly: false
+		}, options)
+		
+		if (pos == null)
+			pos = this.getCaretIndex();
+		
+		var line = "";
+		
+		if (!settings.getAfterOnly) {
+			let re = /^(.*)~!@$/m;
+			let result = re.exec(this.val().substring(0, pos) + '~!@');
+			(result !== null) && (line += result[1]);
+		}
+		
+		if (!settings.getBeforeOnly) {
+			let re = /^~!@(.*)$/m;
+			let result = re.exec('~!@' + this.val().substring(pos, this.val().length));
+			(result !== null) && (line += result[1]);
+		}
+			
+		return line;
 	}
 	
 } (jQuery));
