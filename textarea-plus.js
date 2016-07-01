@@ -4,7 +4,6 @@
  *
  * Copyright (c) 2016 Shrumit Mehta
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- *
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -91,55 +90,6 @@
 		return height;
 	}
 	
-	$.fn.insert = function (text, pos, options){
-		
-		var settings = $.extend({
-			cursorAtOriginal: false,
-			adjustCursor: 0
-		}, options)
-
-		var cursorPos = this.getCaretIndex();
-		
-		if (pos == null)
-			pos = cursorPos;
-		
-		var oldVal = this.val();
-		var newVal = oldVal.substring(0, pos) + text + oldVal.substring(pos, oldVal.length);
-		this.val(newVal);
-			
-		if (settings.cursorAtOriginal)
-			newPos = cursorPos + settings.adjustCursor;
-		else
-			newPos = pos + text.length + settings.adjustCursor;
-		
-		this.setCaret(newPos);
-	}
-	
-	$.fn.getLineBefore = function(pos){
-		if (pos == null)
-			pos = this.getCaretIndex();
-			
-		var re = /^(.*)~!@$/m;
-		result = re.exec(this.val().substring(0, pos) + '~!@');
-		
-		if (result)
-			return result[1];
-		else
-			return "";
-	}
-	
-	$.fn.getLineAfter = function(pos){
-		if (pos == null)
-			pos = this.getCaretIndex();
-		
-		var re = /~!@(.*)$/m
-		result = re.exec('~!@' + this.val().substring(pos, this.val().length))
-		if (result)
-			return result[1];
-		else
-			return "";
-	}
-	
 	$.fn.getLine = function (pos, options) {
 
 		var settings = $.extend({
@@ -166,5 +116,30 @@
 			
 		return line;
 	}
+	
+	$.fn.insert = function (text, pos, options){
+		
+		var settings = $.extend({
+			caretAtOriginal: false,
+			adjustCaret: 0
+		}, options)
+
+		var cursorPos = this.getCaretIndex();
+		
+		if (pos == null)
+			pos = cursorPos;
+		
+		var oldVal = this.val();
+		var newVal = oldVal.substring(0, pos) + text + oldVal.substring(pos, oldVal.length);
+		this.val(newVal);
+			
+		if (settings.caretAtOriginal)
+			newPos = cursorPos + settings.adjustCaret;
+		else
+			newPos = pos + text.length + settings.adjustCaret;
+		
+		this.setCaret(newPos);
+	}
+		
 	
 } (jQuery));
