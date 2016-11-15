@@ -1,5 +1,5 @@
 # Textarea-Plus
-*A series of abstractions to make textarea manipulation easier*
+*Some functions to make textarea manipulation easier*
 
 ## API
 
